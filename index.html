@@ -82,9 +82,9 @@
               //have also added some html tags to style the popup, so it isn't boring text, which goes in 
               //between quotes (single or double, but be consistent and alternate if using inside nested (see 
               //line 81)].
-              '<h3>' + marker.toGeoJSON().properties.cemetery + '</h3>' +
-          
-              '<p>' + marker.toGeoJSON().properties.date_range + '</p><div style="clear: both"></div>'
+              <h3>' + marker.toGeoJSON().properties.cemetery + '</h3>' +
+              '<img style="float: left; width: 100px; padding: 5px; margin-right: 5px" src=' + marker.toGeoJSON().properties.profile_image_url + ' />' +
+              '<p>' + marker.toGeoJSON().properties.text + '</p><div style="clear: both"></div>'
       
       
               
