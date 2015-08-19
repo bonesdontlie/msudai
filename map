@@ -1,0 +1,111 @@
+<!--Opening stuff for an html file.-->
+<!DOCTYPE html>
+<html>
+  <head>
+   
+
+   
+    <!--This is the lone, required stylesheet for our map.-->
+    <link rel="stylesheet" href='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.css' />
+   
+  
+    
+    <!--These are the required script files (Javascript) for our map and omnivore.-->
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
+    <script src='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.0.1/leaflet-omnivore.min.js'></script>
+
+
+    
+    <!--Here is where we define the text that shows up at the top of the browser window/tab.-->
+    <title>Amazing Map</title>
+
+
+    
+    <!--Here we add the necessary .css information for the body section and map container, which must have an
+    absolute position.-->
+    <style>
+      body { margin:0; padding:0; }
+      #map { position: absolute; top: 60px; bottom: 0; width:700px; }
+    </style>
+
+
+  <!--More standard html stuff.-->
+  </head>
+  <body>
+  
+  
+  
+    <!--First we have a title above the map.-->
+    <h2>My Map</h2>
+
+
+    
+    <!--Next we create a container for the map on the page.-->
+    <div id='map'></div>
+      
+      
+      
+      <!--Below this container, we are going to put the Javascript that calls the map, adds the data points, 
+      and styles the popups.-->
+      <script type="text/javascript">
+      
+      
+        
+        //This is the most simple way to call a map, but there are other options that use other open source
+        //tools, such as Leaflet. Mapbox requires a public key.
+        L.mapbox.accessToken = 'pk.eyJ1IjoiYm9uZXNkb250bGllIiwiYSI6ImVkNDY5ZTQyYzQ1MThiOGY2ZTEwYThjZDkyYzJjYjQ5In0.lyYLTI1ca8-72Mhi7VgrwQ';
+        var map = L.mapbox.map('map', 'bonesdontlie.n7bca4b9', {minZoom: 3});
+      
+      
+      
+      
+      
+        
+        //Using Omnivore, we're going to bring in the data from another file, which we have created in our 
+        //repository.
+        var points = omnivore.csv(
+          'data.csv')
+      
+      
+          
+        //This next bit of code tells the page to style the data in the way that we want, such as adding a 
+        //popup on each point.  
+        .on('ready', function(layer){
+          this.eachLayer(function(marker) {
+            marker.bindPopup(
+
+
+
+              //Here we tell the page what from the data will go into each popup, based on the column names
+              //from the data, where the last string on the line (before the + sign) is the column name. I
+              //have also added some html tags to style the popup, so it isn't boring text, which goes in 
+              //between quotes (single or double, but be consistent and alternate if using inside nested (see 
+              //line 81)].
+              '<h3>' + marker.toGeoJSON().properties.from_user + '</h3>' +
+              '<img style="float: left; width: 100px; padding: 5px; margin-right: 5px" src=' + marker.toGeoJSON().properties.profile_image_url + ' />' +
+              '<p>' + marker.toGeoJSON().properties.text + '</p><div style="clear: both"></div>'
+      
+      
+              
+              //Then we add the padding for the area around the popup to make sure it doesn't open out of view.
+              , {autoPanPadding: [5,55]}
+      
+      
+              
+              //Now we close everything up.
+            );
+          });
+         })
+      
+      
+        
+        //Finally, we tell the script to add the popups to the map and close the script.
+        .addTo(map);
+      </script>
+
+
+
+    <!--Finally, the last bit of normal html stuff.-->
+    </body>
+  </html>
+      
